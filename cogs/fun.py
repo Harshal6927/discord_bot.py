@@ -6,19 +6,25 @@ import aiohttp
 
 from io import BytesIO
 from discord.ext import commands
-from utils import lists, permissions, http, default
+from utils import permissions, http, default
 
 
 class Fun_Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.config = default.config()
-        self.alex_api_token = self.config["alexflipnote_api"]
 
     @commands.command(aliases=["8ball"])
     async def eightball(self, ctx, *, question: commands.clean_content):
         """ Consult 8ball to receive an answer """
-        answer = random.choice(lists.ballresponse)
+        ballresponse = [
+            "Yes", "No", "Take a wild guess...", "Very doubtful",
+            "Sure", "Without a doubt", "Most likely", "Might be possible",
+            "You'll be the judge", "no... (╯°□°）╯︵ ┻━┻", "no... baka",
+            "senpai, pls no ;-;"
+        ]
+
+        answer = random.choice(ballresponse)
         await ctx.send(f"🎱 **Question:** {question}\n**Answer:** {answer}")
 
     async def randomimageapi(self, ctx, url: str, endpoint: str, token: str = None):
@@ -164,12 +170,12 @@ class Fun_Commands(commands.Cog):
         r = random.randint(1, 100)
         hot = r / 1.17
 
-        if hot > 25:
-            emoji = "❤"
+        if hot > 75:
+            emoji = "💞"
         elif hot > 50:
             emoji = "💖"
-        elif hot > 75:
-            emoji = "💞"
+        elif hot > 25:
+            emoji = "❤"
         else:
             emoji = "💔"
 
