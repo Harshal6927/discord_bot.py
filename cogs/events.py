@@ -45,11 +45,7 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
-        to_send = next((
-            chan for chan in sorted(guild.channels, key=lambda x: x.position)
-            if chan.permissions_for(guild.me).send_messages and isinstance(chan, discord.TextChannel)
-        ), None)
-
+        to_send = next((chan for chan in guild.text_channels if chan.permissions_for(guild.me).send_messages), None)
         if to_send:
             await to_send.send(self.config["join_message"])
 
@@ -85,5 +81,5 @@ class Events(commands.Cog):
         print(f"Ready: {self.bot.user} | Servers: {len(self.bot.guilds)}")
 
 
-def setup(bot):
-    bot.add_cog(Events(bot))
+async def setup(bot):
+    await bot.add_cog(Events(bot))
